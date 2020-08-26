@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/store/image/")
+@RequestMapping("/store/image")
 @CrossOrigin("*")
 @AllArgsConstructor
 public class S3ImageStorageController {
     private final S3ImageStorageService s3ImageStorageService;
 
-    @PostMapping("upload/image")
+    @PostMapping("/s3/bucket")
     public ResponseEntity<String> storeImageToBucket(@RequestParam MultipartFile multipartFile){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(s3ImageStorageService.storeToBucket(multipartFile));
