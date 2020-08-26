@@ -1,0 +1,8 @@
+Aws-S3 
+
+It's an api for other applications to store their images
+in amazon web service
+
+It stores the image in s3 bucket and it returns a link to image
+
+User can store image ,update image, delete image and share image from this bucket
