@@ -48,4 +48,9 @@ public class S3ImageStorageService {
             throw new IllegalStateException("Empty file !!!!!");
         }
     }
+
+    public byte[] getImage() {
+        String pathName=BucketName.PROFILE_IMAGE.getBucketName();
+        return s3ImageStore.getImage(pathName);
+    }
 }
