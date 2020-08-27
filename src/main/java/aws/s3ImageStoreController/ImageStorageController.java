@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/aws/s3")
 @CrossOrigin("*")
 @AllArgsConstructor
-public class RawImageStorageController {
+public class ImageStorageController {
     private final S3ImageStorageService s3ImageStorageService;
 
     //stores a image in bucket
