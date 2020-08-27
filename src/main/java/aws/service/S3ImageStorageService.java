@@ -1,6 +1,7 @@
 package aws.service;
 
 import aws.bucketName_enum.BucketName;
+import aws.model.ImageDescription;
 import aws.storeService.S3ImageStore;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,32 @@ public class S3ImageStorageService {
         return imageName;
     }
 
+    public byte[] getImage() {
+        return s3ImageStore.getImage(BucketName.PROFILE_IMAGE.getBucketName(),
+                "hero-bg.jpg-07c869db-2941-465e-9876-25ce10d1ed75");
+    }
+
+    public ImageDescription postImageToBucket(MultipartFile multipartFile, ImageDescription imageDescription) {
+        isEmpty(multipartFile);
+        isImage(multipartFile);
+        Map<String, String> imageMetadata = extractMetadata(multipartFile);
+        String pathName=BucketName.PROFILE_IMAGE.getBucketName();
+        String imageLink=String.format("%s-%s",multipartFile.getOriginalFilename(),UUID.randomUUID());
+
+        try {
+            s3ImageStore.postImage(pathName,imageLink,Optional.of(imageMetadata),multipartFile.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        imageDescription.setImageLink(imageLink);
+        return imageDescription;
+    }
+
+    public byte[] getImageByLink(String imageLink, String imagePath) {
+        return s3ImageStore.getImage(imagePath,imageLink);
+    }
+
     private Map<String, String> extractMetadata(MultipartFile multipartFile) {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", multipartFile.getContentType());
@@ -47,10 +74,5 @@ public class S3ImageStorageService {
         if(multipartFile.isEmpty()){
             throw new IllegalStateException("Empty file !!!!!");
         }
-    }
-
-    public byte[] getImage() {
-        String pathName=BucketName.PROFILE_IMAGE.getBucketName();
-        return s3ImageStore.getImage(pathName);
     }
 }

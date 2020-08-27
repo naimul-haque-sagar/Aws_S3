@@ -28,14 +28,23 @@ public class S3ImageStore {
         amazonS3.putObject(pathName,imageName,inputStream,objectMetadata);
     }
 
-    public byte[] getImage(String pathName) {
+    public byte[] getImage(String pathName,String imageLink) {
         try {
-            //second argument is the image link
-            S3Object s3Object=amazonS3.getObject(pathName,"hero-bg.jpg-07c869db-2941-465e-9876-25ce10d1ed75");
+            S3Object s3Object=amazonS3.getObject(pathName,imageLink);
             return IOUtils.toByteArray(s3Object.getObjectContent());
         } catch (AmazonServiceException|IOException e) {
             System.out.println(e);
             throw new IllegalStateException("Failed to get image");
         }
+    }
+
+    public void postImage(String pathName, String imageLink, Optional<Map<String, String>> imageMetadata, InputStream inputStream) {
+        ObjectMetadata objectMetadata=new ObjectMetadata();
+        imageMetadata.ifPresent(map->{
+            if(!map.isEmpty()){
+                map.forEach(objectMetadata::addUserMetadata);
+            }
+        });
+        amazonS3.putObject(pathName,imageLink,inputStream,objectMetadata);
     }
 }
