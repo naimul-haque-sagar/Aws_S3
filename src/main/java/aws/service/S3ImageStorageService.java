@@ -57,20 +57,20 @@ public class S3ImageStorageService {
         return s3ImageStore.getImage(imagePath,imageLink);
     }
 
-    private Map<String, String> extractMetadata(MultipartFile multipartFile) {
+    public Map<String, String> extractMetadata(MultipartFile multipartFile) {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", multipartFile.getContentType());
         metadata.put("Content-Length", String.valueOf(multipartFile.getSize()));
         return metadata;
     }
 
-    private void isImage(MultipartFile multipartFile) {
+    public void isImage(MultipartFile multipartFile) {
         if(!Arrays.asList(IMAGE_JPEG.getMimeType(),IMAGE_PNG.getMimeType(),IMAGE_GIF.getMimeType()).contains(multipartFile.getContentType())){
             throw new IllegalStateException("Not a image");
         }
     }
 
-    private void isEmpty(MultipartFile multipartFile) {
+    public void isEmpty(MultipartFile multipartFile) {
         if(multipartFile.isEmpty()){
             throw new IllegalStateException("Empty file !!!!!");
         }

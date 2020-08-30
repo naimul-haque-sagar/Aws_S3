@@ -31,7 +31,8 @@ public class ImageStorageController {
     //post image and returns imageLink with a class ImageDescription
     @PostMapping("/image/model/save")
     public ResponseEntity<ImageDescription> postImageToBucket(@RequestParam MultipartFile multipartFile,
-                                                              @RequestBody ImageDescription imageDescription){
+                                                              @ModelAttribute ImageDescription imageDescription){
+        System.out.println(imageDescription);
         return ResponseEntity.status(HttpStatus.OK).body(s3ImageStorageService.postImageToBucket(multipartFile,imageDescription));
     }
 

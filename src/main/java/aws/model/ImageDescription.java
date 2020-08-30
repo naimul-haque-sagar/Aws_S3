@@ -6,7 +6,9 @@ import java.util.UUID;
 
 @Data
 public class ImageDescription {
-    private String name;
-    private String description;
+    private String category;
+    private String productName;
+    private String productPrice;
+    private String productDescription;
     private String imageLink;
 }
