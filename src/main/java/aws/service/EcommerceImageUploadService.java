@@ -3,6 +3,7 @@ package aws.service;
 import aws.dto.ImageData;
 import aws.storeService.S3ImageStore;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,5 +32,10 @@ public class EcommerceImageUploadService {
             e.printStackTrace();
         }
         return imageLink;
+    }
+
+    public byte[] getEcommerceImage(String bucketName, String category, String productImageLink) {
+        String pathName = String.format("%s/%s", bucketName, category);
+        return s3ImageStore.getImage(pathName,productImageLink);
     }
 }
